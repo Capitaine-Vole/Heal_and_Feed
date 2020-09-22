@@ -2,6 +2,7 @@
 
 namespace CapitaineVole\Heal_and_Feed;
 
+use pocketmine\utils\Config;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
@@ -12,6 +13,10 @@ class Main extends PluginBase{
     public function onEnable()
     {
         $this->getLogger()->info("Heal and Feed c'est bien alumé avec succès");
+        // config
+        @mkdir($this->getDataFolder());
+        $this->saveResource("message.yml");
+        $this->msg = new Config($this->getDataFolder() . "message.yml", Config::YAML);
     }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
@@ -21,24 +26,24 @@ class Main extends PluginBase{
                 if ($sender instanceof Player){
                     if ($sender->hasPermission("use.heal")){
                         $sender->setHealth($sender->getMaxHealth());
-                        $sender->sendMessage("§2Vous avez bein été heal");
+                        $sender->sendMessage($this->msg->get("heal"));
                     } else{
-                        $sender->sendMessage("§cErreur : Vous n'avez pas le permission d'utiliser cette commande");
+                        $sender->sendMessage($this->msg->get("heal-no-perm"));
                     }
                 } else{
-                    $sender->sendMessage("§4Vous n'êtes pas un joueur");
+                    $sender->sendMessage($this->msg->get("is-console"));
                 }
                 break;
             case "feed":
                 if ($sender instanceof Player){
                     if ($sender->hasPermission("use.feed")){
                         $sender->setFood($sender->getMaxFood());
-                        $sender->sendMessage("§2Vous avez bien été feed");
+                        $sender->sendMessage($this->msg->get("feed"));
                     } else{
-                        $sender->sendMessage("§cErreur : Vous n'avez pas le permission d'utiliser cette commande");
+                        $sender->sendMessage($this->msg->get("feed-no-perm"));
                     }
                 } else{
-                    $sender->sendMessage("§4Vous n'êtes pas un joueur");
+                    $sender->sendMessage($this->msg->get("is-console"));
                 }
         }
         return true;
