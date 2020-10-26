@@ -1,0 +1,8 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/Capitaine-Vole/Heal_and_Feed
+build-by-default: true
+branches:
+- master
+projects:
+  Heal_and_Feed:
+    path: ""
+...
